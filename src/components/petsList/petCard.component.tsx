@@ -39,20 +39,23 @@ export const PetCard: React.FC<IPetCardProps> = ({
               </span>
             ))}
           </div>
-          <NiceBtn
-            bgColor="sky"
-            textColor="sky"
-            label="Edit"
-            classname="mr-3"
-          />
-          <NiceBtn
-            bgColor="red"
-            textColor="red"
-            label="Delete"
+          <button
+            className={`hover:bg-sky-600  text-sky-600 border border-sky-600 hover:text-white
+            active:bg-sky-600 font-bold uppercase text-sm px-6 py-3 rounded leading-6
+             outline-none focus:outline-none mb-1 ease-linear transition-all duration-150 mr-3`}
+          >
+            Edit
+          </button>
+          <button
             onClick={() => {
               setOpenDeleteModal(true);
             }}
-          />
+            className={`hover:bg-red-600  text-red-600 border border-red-600 hover:text-white
+            active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded leading-6
+             outline-none focus:outline-none mb-1 ease-linear transition-all duration-150 `}
+          >
+            Delete
+          </button>
         </div>
       </div>
       <ConfirmModal

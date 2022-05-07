@@ -4,9 +4,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { IPet } from "../../models/IPet";
 import { deletePet, findPetsByStatus } from "../../services/pets.service";
-import { NiceBtn } from "../btn.component";
 import { PetCard } from "./petCard.component";
-import { NiceTab } from "./niceTab.component";
+import { NiceTab } from "../niceTab.component";
+import { Link } from "react-router-dom";
 
 export const PetList: React.FC<{}> = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -24,7 +24,15 @@ export const PetList: React.FC<{}> = () => {
           Pets list
         </h6>
         <span className="grow"></span>
-        <NiceBtn bgColor="sky" textColor="sky" label="Create new pet" />
+        <Link
+          to="/newPet"
+          className={`hover:bg-sky-600  text-sky-600 border border-sky-600 hover:text-white
+         active:bg-sky-600 font-bold uppercase text-sm px-6 py-3 rounded leading-6
+          outline-none focus:outline-none mb-1 ease-linear transition-all duration-150 `}
+        >
+          Create new pet
+        </Link>
+        {/* <NiceBtn bgColor="sky" textColor="sky" label="Create new pet" /> */}
       </div>
       <TabsList handleSetOpenTab={handleSetOpenTab} openTab={openTab} />
       <TabsContent openTab={openTab} />
