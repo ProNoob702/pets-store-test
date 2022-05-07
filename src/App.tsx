@@ -1,10 +1,10 @@
-import { Routes } from "./routes/routes";
+import { AppRoutes } from "./routes/routes";
 import "./App.css";
 
 const App: React.FC<{}> = () => {
   return (
     <div className="">
-      <Routes />
+      <AppRoutes />
     </div>
   );
 };

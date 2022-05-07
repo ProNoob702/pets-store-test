@@ -1,10 +1,12 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PetList } from "../components/petsList.component";
 
-export const Routes: React.FC<{}> = () => {
+export const AppRoutes: React.FC<{}> = () => {
   return (
     <BrowserRouter>
-      <Route path="/" element={<PetList />} />
+      <Routes>
+        <Route path="/" element={<PetList />} />
+      </Routes>
     </BrowserRouter>
   );
 };
