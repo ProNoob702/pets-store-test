@@ -61,15 +61,9 @@ const TabsContent: React.FC<{ openTab: number }> = ({ openTab }) => {
         <div className="relative flex flex-col min-w-0 w-full ">
           <div className=" flex-auto">
             <div className="tab-content tab-space">
-              <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                <TabContent status="available" />
-              </div>
-              <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                <TabContent status="pending" />
-              </div>
-              <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-                <TabContent status="sold" />
-              </div>
+              {openTab === 1 ? <TabContent status="available" /> : null}
+              {openTab === 2 ? <TabContent status="pending" /> : null}
+              {openTab === 3 ? <TabContent status="sold" /> : null}
             </div>
           </div>
         </div>
