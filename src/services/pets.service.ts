@@ -7,9 +7,9 @@ const headers: AxiosRequestHeaders = {
   "Content-Type": "application/json",
 };
 
-export const findPetsByStatus = async () => {
+export const findPetsByStatus = async (status: IPet["status"]) => {
   try {
-    const url = `${apiBaseUrl}/pet/findByStatus`;
+    const url = `${apiBaseUrl}/pet/findByStatus?status=${status}`;
     const res = await axios.get(url, { headers });
     return res.data;
   } catch (err) {
