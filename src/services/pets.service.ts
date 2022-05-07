@@ -1,7 +1,7 @@
 import axios, { AxiosRequestHeaders } from "axios";
 import { IPet } from "../models/IPet";
 
-const apiBaseUrl = "";
+const apiBaseUrl = "https://petstore.swagger.io/v2";
 
 const headers: AxiosRequestHeaders = {
   "Content-Type": "application/json",
