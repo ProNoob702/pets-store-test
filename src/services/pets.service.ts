@@ -11,7 +11,7 @@ export const findPetsByStatus = async (status: IPet["status"]) => {
   try {
     const url = `${apiBaseUrl}/pet/findByStatus?status=${status}`;
     const res = await axios.get(url, { headers });
-    return res.data;
+    return res.data as IPet[];
   } catch (err) {
     console.error(err);
   }
