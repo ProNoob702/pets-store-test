@@ -2,11 +2,11 @@ import React, { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { IPet } from "../models/IPet";
-import { deletePet, findPetsByStatus } from "../services/pets.service";
-import { isvalidURL } from "../utils/checks.utils";
-import { NiceBtn } from "./btn.component";
-import { ConfirmModal } from "./confirmModal.component";
+import { IPet } from "../../models/IPet";
+import { deletePet, findPetsByStatus } from "../../services/pets.service";
+import { NiceBtn } from "../btn.component";
+import { PetCard } from "./petCard.component";
+import { NiceTab } from "./niceTab.component";
 
 export const PetList: React.FC<{}> = () => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -51,32 +51,6 @@ const TabsList: React.FC<{
         Sold
       </NiceTab>
     </ul>
-  );
-};
-
-const NiceTab: React.FC<{
-  children: any;
-  openTab: number;
-  clickHandle: (e: React.MouseEvent<any>, i: number) => unknown;
-  i: number;
-}> = ({ children, openTab, clickHandle, i }) => {
-  return (
-    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-      <a
-        className={
-          "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-          (openTab === i ? "text-white bg-sky-600" : "text-sky-600 bg-white")
-        }
-        onClick={(e) => {
-          clickHandle(e, i);
-        }}
-        data-toggle="tab"
-        href="#link1"
-        role="tablist"
-      >
-        {children}
-      </a>
-    </li>
   );
 };
 
@@ -134,66 +108,5 @@ const TabContent: React.FC<{ status: IPet["status"] }> = ({ status }) => {
         <PetCard key={p.id} petObj={p} handleDeletePet={handleDeletePet} />
       ))}
     </div>
-  );
-};
-
-const defaultPetImageUrl =
-  "https://www.dogstrust.ie/sponsor/_media/mystery-dog/133330dog-gallery.dog-profile-mobile-mystery-1.jpg";
-
-interface IPetCardProps {
-  petObj: IPet;
-  handleDeletePet: (petObj: IPet) => any;
-}
-
-const PetCard: React.FC<IPetCardProps> = ({ petObj, handleDeletePet }) => {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const petImgUrl = petObj.photoUrls?.[0];
-  const finalImageUrl = isvalidURL(petImgUrl) ? petImgUrl : defaultPetImageUrl;
-
-  return (
-    <>
-      <div className="w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-        <img className="w-1/2 m-auto rounded-t-lg" src={finalImageUrl} alt="" />
-        <div className="p-5">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {petObj.name}
-          </h5>
-          <div className="mb-2">
-            {petObj.tags?.map((x) => (
-              <span
-                key={x.id}
-                className="text-xs font-semibold inline-block py-1 px-2 rounded text-white-600 bg-sky-200 uppercase last:mr-0 mr-1"
-              >
-                {x.name}
-              </span>
-            ))}
-          </div>
-          <NiceBtn
-            bgColor="sky"
-            textColor="sky"
-            label="Edit"
-            classname="mr-3"
-          />
-          <NiceBtn
-            bgColor="red"
-            textColor="red"
-            label="Delete"
-            onClick={() => {
-              setOpenDeleteModal(true);
-            }}
-          />
-        </div>
-      </div>
-      <ConfirmModal
-        infoTxt={`Sure you wanna delete ${petObj.name} pet ?`}
-        okLabel="Delete"
-        showModal={openDeleteModal}
-        handleClose={() => setOpenDeleteModal(false)}
-        handleOk={() => {
-          handleDeletePet(petObj);
-          setOpenDeleteModal(false);
-        }}
-      />
-    </>
   );
 };

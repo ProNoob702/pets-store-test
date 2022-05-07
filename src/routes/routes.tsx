@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { PetList } from "../components/petsList.component";
+import { PetList } from "../components/petsList/petsList.component";
 
 export const AppRoutes: React.FC<{}> = () => {
   return (
