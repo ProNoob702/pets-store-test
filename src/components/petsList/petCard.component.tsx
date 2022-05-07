@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { IPet } from "../../models/IPet";
 import { isvalidURL } from "../../utils/checks.utils";
-import { NiceBtn } from "../btn.component";
 import { ConfirmModal } from "../confirmModal.component";
 
 const defaultPetImageUrl =
