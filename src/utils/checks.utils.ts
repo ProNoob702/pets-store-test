@@ -10,3 +10,19 @@ export const isvalidURL = (str: string) => {
   ); // fragment locator
   return !!pattern.test(str);
 };
+
+export const NoDuplicatesByKey = <TItem>(
+  srcArray: readonly TItem[],
+  keySelector: (item: TItem) => number
+): readonly TItem[] => {
+  const seen: { [key: number]: boolean } = {};
+  return srcArray.filter((x) => {
+    const key = keySelector(x);
+    if (seen.hasOwnProperty(key)) {
+      return false;
+    } else {
+      seen[key] = true;
+      return true;
+    }
+  });
+};

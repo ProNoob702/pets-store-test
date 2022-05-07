@@ -1,51 +1,31 @@
 import axios, { AxiosRequestHeaders } from "axios";
 import { IPet } from "../models/IPet";
+import { NoDuplicatesByKey } from "../utils/checks.utils";
 
 const apiBaseUrl = "https://petstore.swagger.io/v2";
 
 const headers: AxiosRequestHeaders = {
   "Content-Type": "application/json",
+  api_key: "special-key",
 };
 
 export const findPetsByStatus = async (status: IPet["status"]) => {
-  try {
-    const url = `${apiBaseUrl}/pet/findByStatus?status=${status}`;
-    const res = await axios.get(url, { headers });
-    return res.data as IPet[];
-  } catch (err) {
-    console.error(err);
-  }
+  const url = `${apiBaseUrl}/pet/findByStatus?status=${status}`;
+  const res = await axios.get(url, { headers });
+  return NoDuplicatesByKey(res.data, (x) => x.id) as IPet[];
 };
 
 export const addNewPet = async (newPet: IPet) => {
   const url = `${apiBaseUrl}/pet`;
-  try {
-    const resp = await axios.post(url, newPet, { headers });
-    console.log(resp.data);
-  } catch (err) {
-    // Handle Error Here
-    console.error(err);
-  }
+  return await axios.post(url, newPet, { headers });
 };
 
 export const updatePet = async (updatedPet: IPet) => {
   const url = `${apiBaseUrl}/pet`;
-  try {
-    const resp = await axios.put(url, updatedPet, { headers });
-    console.log(resp.data);
-  } catch (err) {
-    // Handle Error Here
-    console.error(err);
-  }
+  return await axios.put(url, updatedPet, { headers });
 };
 
 export const deletePet = async (petId: number) => {
   const url = `${apiBaseUrl}/pet/${petId}`;
-  try {
-    const resp = await axios.delete(url, { headers });
-    console.log(resp.data);
-  } catch (err) {
-    // Handle Error Here
-    console.error(err);
-  }
+  return await axios.delete(url, { headers });
 };
