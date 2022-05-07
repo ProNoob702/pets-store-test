@@ -32,7 +32,6 @@ export const PetList: React.FC<{}> = () => {
         >
           Create new pet
         </Link>
-        {/* <NiceBtn bgColor="sky" textColor="sky" label="Create new pet" /> */}
       </div>
       <TabsList handleSetOpenTab={handleSetOpenTab} openTab={openTab} />
       <TabsContent openTab={openTab} />

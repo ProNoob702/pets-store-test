@@ -5,6 +5,7 @@
   display: inline-flex;
   justify-content: center;
   padding-left: var(--rti-s);
+  overflow: hidden;
 }
 .go1186250972 button {
   background: none;

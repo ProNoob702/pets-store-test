@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { IPet } from "../../models/IPet";
 import { isvalidURL } from "../../utils/checks.utils";
 import { ConfirmModal } from "../confirmModal.component";
@@ -38,13 +39,13 @@ export const PetCard: React.FC<IPetCardProps> = ({
               </span>
             ))}
           </div>
-          <button
-            className={`hover:bg-sky-600  text-sky-600 border border-sky-600 hover:text-white
-            active:bg-sky-600 font-bold uppercase text-sm px-6 py-3 rounded leading-6
-             outline-none focus:outline-none mb-1 ease-linear transition-all duration-150 mr-3`}
+          <Link
+            to={`/edit/${petObj.id}`}
+            className={`hover:bg-sky-600 mr-3 text-sky-600 border border-sky-600 hover:text-white active:bg-sky-600 font-bold uppercase text-sm px-6 py-3 rounded leading-6  outline-none focus:outline-none mb-1 ease-linear transition-all duration-150 `}
+            style={{ padding: "15px 24px" }}
           >
             Edit
-          </button>
+          </Link>
           <button
             onClick={() => {
               setOpenDeleteModal(true);

@@ -15,6 +15,12 @@ export const findPetsByStatus = async (status: IPet["status"]) => {
   return NoDuplicatesByKey(res.data, (x) => x.id) as IPet[];
 };
 
+export const findPetById = async (petId: string) => {
+  const url = `${apiBaseUrl}/pet/${petId}`;
+  const res = await axios.get(url, { headers });
+  return res.data as IPet;
+};
+
 export const addNewPet = async (newPet: IPet) => {
   const url = `${apiBaseUrl}/pet`;
   return await axios.post(url, newPet, { headers });
