@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { IPet } from "../models/IPet";
 import { deletePet, findPetsByStatus } from "../services/pets.service";
 import { isvalidURL } from "../utils/checks.utils";
@@ -23,7 +24,7 @@ export const PetList: React.FC<{}> = () => {
           Pets list
         </h6>
         <span className="grow"></span>
-        <NiceBtn bgColor="sky" label="Create new pet" />
+        <NiceBtn bgColor="sky" textColor="sky" label="Create new pet" />
       </div>
       <TabsList handleSetOpenTab={handleSetOpenTab} openTab={openTab} />
       <TabsContent openTab={openTab} />
@@ -105,17 +106,32 @@ const TabsContent: React.FC<{ openTab: number }> = ({ openTab }) => {
 
 const TabContent: React.FC<{ status: IPet["status"] }> = ({ status }) => {
   const [pets, setPets] = useState<IPet[] | undefined>([]);
-  useEffect(() => {
-    (async () => {
-      const pets = await findPetsByStatus(status);
-      if (pets) setPets(pets);
-    })();
+
+  const fetchPets = useCallback(async () => {
+    const pets = await findPetsByStatus(status);
+    if (pets) setPets(pets);
   }, [status]);
+
+  useEffect(() => {
+    fetchPets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleDeletePet = async (petObj: IPet) => {
+    try {
+      await deletePet(petObj.id);
+      toast.success(`${petObj.name} deleted successfly !`);
+      fetchPets();
+    } catch (error) {
+      toast.error(`Failed to delete ${petObj.name}`);
+    }
+  };
+
   if (!pets) return <div>There is no pets</div>;
   return (
     <div className="grid gap-4 grid-cols-3">
       {pets.map((p) => (
-        <PetCard key={p.id} petObj={p} />
+        <PetCard key={p.id} petObj={p} handleDeletePet={handleDeletePet} />
       ))}
     </div>
   );
@@ -124,15 +140,15 @@ const TabContent: React.FC<{ status: IPet["status"] }> = ({ status }) => {
 const defaultPetImageUrl =
   "https://www.dogstrust.ie/sponsor/_media/mystery-dog/133330dog-gallery.dog-profile-mobile-mystery-1.jpg";
 
-const PetCard: React.FC<{ petObj: IPet }> = ({ petObj }) => {
+interface IPetCardProps {
+  petObj: IPet;
+  handleDeletePet: (petObj: IPet) => any;
+}
+
+const PetCard: React.FC<IPetCardProps> = ({ petObj, handleDeletePet }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const petImgUrl = petObj.photoUrls?.[0];
   const finalImageUrl = isvalidURL(petImgUrl) ? petImgUrl : defaultPetImageUrl;
-
-  const doDeletePet = async () => {
-    const res = await deletePet(petObj.id);
-    setOpenDeleteModal(false);
-  };
 
   return (
     <>
@@ -152,9 +168,15 @@ const PetCard: React.FC<{ petObj: IPet }> = ({ petObj }) => {
               </span>
             ))}
           </div>
-          <NiceBtn bgColor="sky" label="Edit" classname="mr-3" />
+          <NiceBtn
+            bgColor="sky"
+            textColor="sky"
+            label="Edit"
+            classname="mr-3"
+          />
           <NiceBtn
             bgColor="red"
+            textColor="red"
             label="Delete"
             onClick={() => {
               setOpenDeleteModal(true);
@@ -167,7 +189,10 @@ const PetCard: React.FC<{ petObj: IPet }> = ({ petObj }) => {
         okLabel="Delete"
         showModal={openDeleteModal}
         handleClose={() => setOpenDeleteModal(false)}
-        handleOk={() => doDeletePet()}
+        handleOk={() => {
+          handleDeletePet(petObj);
+          setOpenDeleteModal(false);
+        }}
       />
     </>
   );
