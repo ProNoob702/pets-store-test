@@ -1,11 +1,12 @@
-import { AppRoutes } from "./routes/routes";
 import "./App.css";
+import { AppLayout } from "./layout/layout";
+import { AppRoutes } from "./routes/routes";
 
 const App: React.FC<{}> = () => {
   return (
-    <div className="">
+    <AppLayout>
       <AppRoutes />
-    </div>
+    </AppLayout>
   );
 };
 
