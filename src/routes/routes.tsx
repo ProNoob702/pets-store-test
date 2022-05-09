@@ -7,6 +7,7 @@ export const AppRoutes: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<PetList />} />
         <Route path="/" element={<PetList />} />
         <Route path="/newPet" element={<NewPetComponent />} />
         <Route path="/edit/:petId" element={<EditPetComponent />} />
